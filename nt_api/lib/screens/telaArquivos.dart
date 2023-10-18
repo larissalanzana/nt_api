@@ -44,15 +44,31 @@ class _ArquivosState extends State<Arquivos> {
         initialData: [],
         future: pageData(),
         builder: (context, snapshot) {
-          List arquivos = snapshot.data as List;
-          return ListView.builder(
-            itemCount: arquivos.length,
-            itemBuilder: (context, index) {
-              return ListTile(
-                title: Text("Abstract: ${arquivos[index].abstract}"),
-              );
-            },
-          );
+          if (snapshot.hasError) {
+            return const Center(
+              child: Text("Erro ao carregar os dados dos arquivos"),
+            );
+          }
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          if (snapshot.hasData) {
+            List arquivos = snapshot.data as List;
+            return ListView.builder(
+              itemCount: arquivos.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text("Abstract: ${arquivos[index].abstract}"),
+                );
+              },
+            );
+          } else {
+            return const Center(
+              child: Text("Nenhum arquivo encontrado"),
+            );
+          }
         },
       ),
     );

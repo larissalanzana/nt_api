@@ -1,4 +1,4 @@
-FROM mobiledevops/flutter-sdk-image
+FROM mobiledevops/flutter-sdk-image:2.19.5
 WORKDIR /app
 COPY pubspec.yaml .
 RUN flutter pub get
